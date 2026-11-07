@@ -101,3 +101,12 @@ class NodeType(Enum):
     HEREDOC = 96
     METHOD = 97
     ECHOCONSOLE = 98
+    LSHIFT = 99
+    RSHIFT = 100
+    DEF = 101
+    ENDDEF = 102
+    VAR = 103
+    FINAL = 104
+    EXPORT = 105
+    IMPORT = 106
+    VIM9SCRIPT = 107

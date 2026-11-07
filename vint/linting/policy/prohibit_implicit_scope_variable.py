@@ -21,6 +21,10 @@ class ProhibitImplicitScopeVariable(AbstractPolicy):
     def is_valid(self, identifier, lint_context):
         """ Whether the identifier has a scope prefix. """
 
+        # Vim9 script has no scope prefixes for script/function-local names.
+        if _is_vim9script(lint_context['stack_trace'][0]):
+            return True
+
         scope_plugin = lint_context['plugins']['scope']
 
         # NOTE: This policy interest only not builtin variables.
@@ -42,3 +46,12 @@ class ProhibitImplicitScopeVariable(AbstractPolicy):
         self.description = 'Make the scope explicit like `{good_example}`'.format(
             good_example=scope_plugin.normalize_variable_name(identifier)
         )
+
+
+def _is_vim9script(toplevel):
+    """ Whether :vim9script is the first command (only comments may precede it). """
+    for node in toplevel['body']:
+        node_type = NodeType(node['type'])
+        if node_type is not NodeType.COMMENT:
+            return node_type is NodeType.VIM9SCRIPT
+    return False

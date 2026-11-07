@@ -208,6 +208,15 @@ ChildNodeAccessorMap = {
     NodeType.HEREDOC: [ChildType['RLIST'], ChildType['BODY']],
     NodeType.METHOD: [ChildType['LEFT'], ChildType['RIGHT']],
     NodeType.ECHOCONSOLE: [ChildType['LIST']],
+    NodeType.LSHIFT: [ChildType['LEFT'], ChildType['RIGHT']],
+    NodeType.RSHIFT: [ChildType['LEFT'], ChildType['RIGHT']],
+    NodeType.DEF: [ChildType['LEFT'], ChildType['RLIST'], ChildType['BODY']],
+    NodeType.ENDDEF: [],
+    NodeType.VAR: [ChildType['LEFT'], ChildType['LIST'], ChildType['REST'], ChildType['RIGHT']],
+    NodeType.FINAL: [ChildType['LEFT'], ChildType['LIST'], ChildType['REST'], ChildType['RIGHT']],
+    NodeType.EXPORT: [ChildType['BODY']],
+    NodeType.IMPORT: [],
+    NodeType.VIM9SCRIPT: [],
 }
 
 
