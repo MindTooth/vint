@@ -3,3 +3,4 @@ set et
 set noet
 set invet
 set et&
+set scl=yes

@@ -34,6 +34,7 @@ class TestProhibitAbbreviationOption(PolicyAssertion, unittest.TestCase):
             self.create_violation(3, 1, INVALID_SET_VIM_SCRIPT),
             self.create_violation(4, 1, INVALID_SET_VIM_SCRIPT),
             self.create_violation(5, 1, INVALID_SET_VIM_SCRIPT),
+            self.create_violation(6, 1, INVALID_SET_VIM_SCRIPT),
         ]
 
         self.assertFoundViolationsEqual(INVALID_SET_VIM_SCRIPT,
