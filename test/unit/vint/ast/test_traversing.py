@@ -7,6 +7,7 @@ from vint.ast.traversing import traverse, SKIP_CHILDREN
 from vint.linting.lint_target import LintTargetFile
 
 FIXTURE_FILE = get_fixture_path('fixture_to_traverse.vim')
+VIM9_FIXTURE_FILE = get_fixture_path('fixture_to_traverse_vim9.vim')
 
 
 class TestTraverse(unittest.TestCase):
@@ -99,6 +100,19 @@ class TestTraverse(unittest.TestCase):
 
         self.maxDiff = 2048
         self.assertEqual(actual_order_of_events, expected_order_of_events)
+
+    def test_traverse_vim9script(self):
+        ast = Parser().parse(LintTargetFile(VIM9_FIXTURE_FILE))
+
+        visited = set()
+        traverse(ast, on_enter=lambda node: visited.add(NodeType(node['type'])))
+
+        expected = {
+            NodeType.VIM9SCRIPT, NodeType.IMPORT, NodeType.EXPORT,
+            NodeType.DEF, NodeType.VAR, NodeType.FINAL,
+            NodeType.LSHIFT, NodeType.RSHIFT, NodeType.RETURN,
+        }
+        self.assertTrue(expected <= visited, expected - visited)
 
 
 if __name__ == '__main__':

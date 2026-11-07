@@ -6,11 +6,17 @@ from vint.linting.policy.prohibit_implicit_scope_variable import ProhibitImplici
 
 PATH_VALID_VIM_SCRIPT = get_fixture_path('prohibit_implicit_scope_variable_valid.vim')
 PATH_INVALID_VIM_SCRIPT = get_fixture_path('prohibit_implicit_scope_variable_invalid.vim')
+PATH_VIM9_SCRIPT = get_fixture_path('prohibit_implicit_scope_variable_vim9.vim')
 
 
 class TestProhibitImplicitScopeVariable(PolicyAssertion, unittest.TestCase):
     def test_get_violation_if_found_when_file_is_valid(self):
         self.assertFoundNoViolations(PATH_VALID_VIM_SCRIPT,
+                                     ProhibitImplicitScopeVariable)
+
+
+    def test_get_violation_if_found_when_file_is_vim9script(self):
+        self.assertFoundNoViolations(PATH_VIM9_SCRIPT,
                                      ProhibitImplicitScopeVariable)
 
 
