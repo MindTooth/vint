@@ -6,11 +6,17 @@ from vint.linting.policy.prohibit_using_undeclared_variable import ProhibitUsing
 
 PATH_VALID_VIM_SCRIPT = get_fixture_path('prohibit_using_undeclared_variable_valid.vim')
 PATH_INVALID_VIM_SCRIPT = get_fixture_path('prohibit_using_undeclared_variable_invalid.vim')
+PATH_HEREDOC_VIM_SCRIPT = get_fixture_path('prohibit_using_undeclared_variable_heredoc.vim')
 
 
 class TestProhibitUsingUndeclaredVariable(PolicyAssertion, unittest.TestCase):
     def test_get_violation_if_found_when_file_is_valid(self):
         self.assertFoundNoViolations(PATH_VALID_VIM_SCRIPT,
+                                     ProhibitUsingUndeclaredVariable)
+
+
+    def test_get_violation_if_found_when_declared_by_heredoc(self):
+        self.assertFoundNoViolations(PATH_HEREDOC_VIM_SCRIPT,
                                      ProhibitUsingUndeclaredVariable)
 
 

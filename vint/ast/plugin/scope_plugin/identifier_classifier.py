@@ -452,8 +452,8 @@ class IdentifierClassifier(object):
 
 
     def _enter_let_node(self, let_node, is_on_lambda_body, is_on_lambda_str):
-        # Only "=" operator can be used as declaration.
-        if let_node['op'] != '=':
+        # Only "=" and heredoc "=<<" operators can be used as declaration.
+        if let_node['op'] not in ('=', '=<<'):
             return
 
         self._enter_assignment_node(
