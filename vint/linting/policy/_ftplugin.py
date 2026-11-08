@@ -41,10 +41,13 @@ def command_arg_string(excmd_node):
     return ''
 
 
-def is_mapping_definition(excmd_node):
-    """ Returns (is_definition, is_buffer_local) for :map family commands. """
+def parse_mapping(excmd_node):
+    """ Returns (special_args, lhs, rhs) for a :map family definition, or None.
+
+    Listing mappings (fewer than {lhs} {rhs}) is not a definition.
+    """
     if not MAP_COMMAND.match(command_name(excmd_node) or ''):
-        return False, False
+        return None
     args = command_arg_string(excmd_node)
     special_args = []
     match = MAP_SPECIAL_ARG.match(args)
@@ -53,10 +56,17 @@ def is_mapping_definition(excmd_node):
         args = args[match.end():]
         match = MAP_SPECIAL_ARG.match(args)
     lhs_and_rhs = args.split(None, 1)
-    # Fewer than {lhs} {rhs} means listing mappings, not defining one.
-    if len(lhs_and_rhs) < 2 or MAP_NAMED_LHS.match(lhs_and_rhs[0]):
+    if len(lhs_and_rhs) < 2:
+        return None
+    return special_args, lhs_and_rhs[0], lhs_and_rhs[1]
+
+
+def is_mapping_definition(excmd_node):
+    """ Returns (is_definition, is_buffer_local) for :map family commands. """
+    mapping = parse_mapping(excmd_node)
+    if mapping is None or MAP_NAMED_LHS.match(mapping[1]):
         return False, False
-    return True, 'buffer' in special_args
+    return True, 'buffer' in mapping[0]
 
 
 def is_command_definition(excmd_node):
